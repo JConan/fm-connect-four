@@ -104,9 +104,17 @@
 .text-button {
 	--btn-raised-by: 10px;
 
+	padding: 10px;
 	width: 400px;
 	height: 72px;
 	border-radius: 20px;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: center;
+
+	& *:last-child {
+		justify-self: end;
+	}
 }
 
 .icon-button {
@@ -117,9 +125,26 @@
 	border-radius: 100%;
 }
 
-@media (max-width: 768px) {
+body {
+	display: grid;
+	place-items: center;
+	margin: 0;
+	padding: 0;
+	height: 100dvh;
+
+	background-color: var(--dark-purple);
+}
+
+a {
+	text-decoration: none;
+}
+
+@media (max-width: 639px) {
 	.text-button {
 		width: 335px;
 		height: 72px;
+	}
+	body {
+		background-color: var(--purple);
 	}
 }
