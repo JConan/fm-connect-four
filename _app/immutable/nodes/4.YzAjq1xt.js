@@ -1,0 +1,1 @@
+import{s as o,n as a}from"../chunks/scheduler.DCNtzCSl.js";import{S as r,i,t as m,b as c,g as l,d as p}from"../chunks/index.Bo2TGHgr.js";function u(s){let t;return{c(){t=m("game rules")},l(e){t=c(e,"game rules")},m(e,n){l(e,t,n)},p:a,i:a,o:a,d(e){e&&p(t)}}}class g extends r{constructor(t){super(),i(this,t,null,u,o,{})}}export{g as component};
