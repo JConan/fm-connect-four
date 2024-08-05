@@ -1,23 +1,26 @@
 <script lang="ts">
 	import { route } from '$lib/ROUTES';
 	import { inlineSvg } from '@svelte-put/inline-svg';
-	// import {} from '$lib/ROUTES.ts';
+	import { base } from '$app/paths';
 </script>
 
 <div class="main-menu">
-	<svg class="logo" use:inlineSvg={'/images/logo.svg'}></svg>
-	<a href={route('/game/[mode]', { mode: 'vs-cpu' })} class="text-button raised-button button-red">
+	<svg class="logo" use:inlineSvg={base + '/images/logo.svg'}></svg>
+	<a
+		href={base + route('/game/[mode]', { mode: 'vs-cpu' })}
+		class="text-button raised-button button-red"
+	>
 		<span>player vs cpu</span>
-		<svg class="player-vs-player" use:inlineSvg={'/images/player-vs-cpu.svg'}></svg>
+		<svg class="player-vs-player" use:inlineSvg={base + '/images/player-vs-cpu.svg'}></svg>
 	</a>
 	<a
-		href={route('/game/[mode]', { mode: 'vs-player' })}
+		href={base + route('/game/[mode]', { mode: 'vs-player' })}
 		class="text-button raised-button button-yellow"
 	>
 		<span>player vs player</span>
-		<svg class="player-vs-player" use:inlineSvg={'/images/player-vs-player.svg'}></svg>
+		<svg class="player-vs-player" use:inlineSvg={base + '/images/player-vs-player.svg'}></svg>
 	</a>
-	<a href={route('/rules')} class="text-button raised-button button-white">
+	<a href={base + route('/rules')} class="text-button raised-button button-white">
 		<span>game rule</span>
 	</a>
 </div>
