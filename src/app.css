@@ -123,6 +123,12 @@
 	width: 64px;
 	height: 64px;
 	border-radius: 100%;
+	display: grid;
+	place-items: center;
+	& svg {
+		width: 80%;
+		height: 80%;
+	}
 }
 
 body {
