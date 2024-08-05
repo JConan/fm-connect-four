@@ -1,5 +1,6 @@
 <script>
 	import { base } from '$app/paths';
+	import { route } from '$lib/ROUTES';
 
 	import { inlineSvg } from '@svelte-put/inline-svg';
 </script>
@@ -19,7 +20,7 @@
 		<li>The starter of the previous game goes second on the next game.</li>
 	</ol>
 
-	<a class="icon-button raised-button button-red" href="/">
+	<a class="icon-button raised-button button-red" href={base + route('/')}>
 		<svg use:inlineSvg={base + '/images/check.svg'} />
 	</a>
 </div>
