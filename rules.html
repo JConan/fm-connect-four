@@ -5,22 +5,25 @@
 		<link rel="icon" href="./favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
-		<link href="./_app/immutable/assets/0.BGwFe7Q2.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.BzmTOv1g.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.BZbZqTgD.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.DCNtzCSl.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/paths.Bni5Ii3s.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.CCBh_Kyi.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.Bo2TGHgr.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.DZviICEG.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/4.YzAjq1xt.js">
+		<link href="./_app/immutable/assets/0.4ZkkQ9wT.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/4.lPJ6ejbU.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.BfbO9GB1.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.BtBPc8ST.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.DhETzKN4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/paths.PM_eTrnJ.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.BTP46t8i.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.B7GCkIXa.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.CnpEqt6N.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/4.uA7quiZl.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/inline-svg.action.BdhADqH3.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">  game rules 
+		<div style="display: contents">  <div class="container svelte-vf2ii2"><h1 class="heading-large" data-svelte-h="svelte-1vvyijk">Rules</h1> <h3 class="heading-small" data-svelte-h="svelte-y4489g">Objective</h3> <p data-svelte-h="svelte-1vwku8e">Be the first player to connect 4 of the same colored discs in a row (either vertically,
+		horizontally, or diagonally).</p> <h3 class="heading-small" data-svelte-h="svelte-sg3wr8">How to play</h3> <ol data-svelte-h="svelte-1a9jaw0"><li>Red goes first in the first game.</li> <li>Players must alternate turns, and only one disc can be dropped in each turn.</li> <li>The game ends when there is a 4-in-a-row or a stalemate.</li> <li>The starter of the previous game goes second on the next game.</li></ol> <a class="icon-button raised-button button-red" href="./"><svg></svg></a> </div> 
 			
 			<script>
 				{
-					__sveltekit_1eh688r = {
+					__sveltekit_1mohzjs = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						assets: "/fm-connect-four"
 					};
@@ -30,8 +33,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.BzmTOv1g.js"),
-						import("./_app/immutable/entry/app.CCBh_Kyi.js")
+						import("./_app/immutable/entry/start.BfbO9GB1.js"),
+						import("./_app/immutable/entry/app.BTP46t8i.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 4],
