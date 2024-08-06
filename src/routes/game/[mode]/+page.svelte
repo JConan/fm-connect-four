@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
 	import { inlineSvg } from '@svelte-put/inline-svg';
-	import { page } from '$app/stores';
 	import { base } from '$app/paths';
+	import { onMount } from 'svelte';
 
 	const marks = {
 		red: "<svg use:inlineSvg={base + '/images/counter-red-large.svg'} />",
@@ -10,28 +9,26 @@
 	};
 
 	let turn: 'red' | 'yellow' = 'red';
-	let column = 1;
-	let column_prev = 1;
-	$: x = (column_prev - column) * 100;
 
-	function enterColumn(index: number) {
-		return () => {
-			column_prev = column;
-			column = (index % 7) + 1;
-		};
+	let targetX: number;
+	function calcTargetX(index: number) {
+		const cursorRect = document.querySelectorAll('.board-cursor svg')[0].getClientRects()[0];
+		const boardRect = document.getElementsByClassName('board')[0].getClientRects()[0];
+		const cellRect = document.querySelectorAll('.board-cell')[index % 7].getClientRects()[0];
+		targetX = cellRect.x + Math.floor((cellRect.width - cursorRect.width) / 2) - boardRect.x;
 	}
+
+	onMount(() => {
+		calcTargetX(0);
+	});
 </script>
 
 <div class="board-cursor">
-	<!-- not sure why but board layer black would glitch a bit if removed-->
-	<!-- <svg opacity="0" use:inlineSvg={base + '/images/marker-'       + { turn } + '.svg'} /> -->
-	{#key column}
-		<svg
-			in:fly={{ x, duration: 200, opacity: 1, delay: 50 }}
-			style="grid-area: cell-{column};"
-			use:inlineSvg={base + '/images/marker-red.svg'}
-		/>
-	{/key}
+	<svg
+		style={`margin-left: ${targetX}px`}
+		use:inlineSvg={base + '/images/marker-red.svg'}
+		width="38"
+	/>
 </div>
 <div class="board">
 	{#each Array(7 * 6) as _, index}
@@ -40,13 +37,15 @@
 			id={`board-cell-${index}]`}
 			role="cell"
 			tabindex="0"
-			on:mouseenter={enterColumn(index)}
+			on:mouseenter={() => {
+				calcTargetX(index);
+			}}
 		>
 			<!-- <svg use:inlineSvg={base + '/images/counter-red-large.svg'} /> -->
 		</div>
 	{/each}
-	<svg class="board-image" use:inlineSvg={base + '/images/board-layer-black-large.svg'} />
-	<svg class="board-image" use:inlineSvg={base + '/images/board-layer-white-large.svg'} />
+	<svg class="board-shadow" use:inlineSvg={base + '/images/board-layer-black-large.svg'} />
+	<svg class="board-overlay" use:inlineSvg={base + '/images/board-layer-white-large.svg'} />
 </div>
 
 <style>
@@ -60,14 +59,16 @@
 		padding: 0.5rem;
 		padding-bottom: 3rem;
 
-		& > .board-image {
-			pointer-events: none;
+		& > svg {
 			position: absolute;
 			top: 0;
 
-			&:first-child {
+			&.board-shadow {
 				z-index: -1;
 				top: 0.75rem;
+			}
+			&.board-overlay {
+				pointer-events: none;
 			}
 		}
 
@@ -84,14 +85,14 @@
 	.board-cursor {
 		width: 39.5rem;
 		height: 2.25rem;
-		display: grid;
+		/* display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		place-items: center;
 		padding: 0 0.5rem;
-		grid-template-areas: 'cell-1 cell-2 cell-3 cell-4 cell-5 cell-6 cell-7';
-		transition: all 0.5s ease;
+		grid-template-areas: 'cell-1 cell-2 cell-3 cell-4 cell-5 cell-6 cell-7'; */
 
 		& svg {
+			transition: all 0.2s ease;
 			height: 100%;
 		}
 	}
