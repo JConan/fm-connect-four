@@ -20,7 +20,7 @@
 		<span>player vs player</span>
 		<svg class="player-vs-player" use:inlineSvg={base + '/images/player-vs-player.svg'}></svg>
 	</a>
-	<a href={base + route('/rules')} class="text-button raised-button button-white">
+	<a href={base + route('/rule')} class="text-button raised-button button-white">
 		<span>game rule</span>
 	</a>
 </div>

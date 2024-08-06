@@ -13,7 +13,7 @@ const PAGES = {
   "/game/[mode]": (params: { mode: (string | number) }) => {
     return `/game/${params.mode}`
   },
-  "/rules": `/rules`
+  "/rule": `/rule`
 }
 
 /**
@@ -134,7 +134,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/game/[mode]': 'mode', '/rules': never }
+  PAGES: { '/': never, '/game/[mode]': 'mode', '/rule': never }
   SERVERS: Record<string, never>
   ACTIONS: Record<string, never>
   LINKS: Record<string, never>

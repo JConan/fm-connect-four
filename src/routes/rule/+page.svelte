@@ -73,4 +73,15 @@
 			margin-top: 45px;
 		}
 	}
+
+	@media (max-width: 639px) {
+		.container {
+			width: 335px;
+			height: 586px;
+			padding: 20px;
+		}
+		.container .icon-button {
+			margin-top: 35px;
+		}
+	}
 </style>
