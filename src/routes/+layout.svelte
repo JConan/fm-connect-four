@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
 	import '../app.css';
 
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
-	import { navigating, page } from '$app/stores';
+	import { navigating } from '$app/stores';
+	import { fly } from 'svelte/transition';
 
 	let pixels = 500;
 	let directions: Record<string, [object, object]> = {
@@ -43,9 +43,7 @@
 
 <style>
 	div {
-		width: 100dvw;
-		height: 100dvh;
 		display: grid;
-		place-items: center;
+		gap: 0;
 	}
 </style>
