@@ -43,7 +43,7 @@
 
 <style>
 	div {
-		width: 100dwv;
+		width: 100dvw;
 		height: 100dvh;
 		display: grid;
 		place-items: center;
