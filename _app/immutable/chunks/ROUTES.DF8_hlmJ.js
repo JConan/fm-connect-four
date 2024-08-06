@@ -1,0 +1,1 @@
+const c={"/":"/","/game/[mode]":e=>`/game/${e.mode}`,"/rule":"/rule"},s={},r={},u={},t={...c,...r,...s,...u};[...new Set(Object.keys(t).map(e=>{var n;return((n=/^\/.*|[^ ]?\/.*$/.exec(e))==null?void 0:n[0])??e}))];function l(e,...n){if(t[e]instanceof Function){const o=t[e];return o(...n)}else return t[e]}export{l as r};
