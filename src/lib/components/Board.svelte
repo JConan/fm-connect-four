@@ -36,9 +36,9 @@
 
 	let color: CounterColor = 'red';
 	function onSelectColumn(index: number) {
-		return (event: Event) => {
-			setCounter({ indexColumn: index % 7, color });
-			color = color === 'red' ? 'yellow' : 'red';
+		return async (event: Event) => {
+			if (await setCounter({ indexColumn: index % 7, color }))
+				color = color === 'red' ? 'yellow' : 'red';
 		};
 	}
 </script>
