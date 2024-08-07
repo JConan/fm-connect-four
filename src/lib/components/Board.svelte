@@ -41,10 +41,18 @@
 				color = color === 'red' ? 'yellow' : 'red';
 		};
 	}
+
+	let innerWidth: number;
+	let imageSize: 'small' | 'large' = 'large';
+	$: imageSize = innerWidth < 640 ? 'small' : 'large';
+
+	$: console.log({ innerWidth });
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="board">
-	<svg class="shadow" use:inlineSvg={base + '/images/board-layer-black-large.svg'} height="594" />
+	<svg class="shadow" use:inlineSvg={`${base}/images/board-layer-black-${imageSize}.svg`} />
 	<div class="cells">
 		{#each Array(7 * 6) as _, index}
 			<button
@@ -56,37 +64,37 @@
 				on:click={onSelectColumn(index)}
 			>
 				{#if $board[index]}
-					<Counter color={$board[index]} />
+					<Counter color={$board[index]} {imageSize} />
 				{/if}
 			</button>
 		{/each}
 	</div>
-	<svg class="overlay" use:inlineSvg={base + '/images/board-layer-white-large.svg'} />
-	<div class="board-cursor">
-		{#key $data.column}
-			<svg
-				in:fly={{ x: -x, duration: hoverDelay, opacity: 1 }}
-				style={`grid-area: cell-${$data.column}`}
-				use:inlineSvg={base + '/images/marker-' + color + '.svg'}
-				width="38"
-				height="30"
-			/>
-		{/key}
-	</div>
+	<svg class="overlay" use:inlineSvg={`${base}/images/board-layer-white-${imageSize}.svg`} />
+	{#if innerWidth > 768}
+		<div class="board-cursor">
+			{#key $data.column}
+				<svg
+					in:fly={{ x: -x, duration: hoverDelay, opacity: 1 }}
+					style={`grid-area: cell-${$data.column}`}
+					use:inlineSvg={`${base}/images/marker-${color}.svg`}
+				/>
+			{/key}
+		</div>
+	{/if}
 </div>
 
 <style>
 	.board {
 		position: relative;
 		width: 632px;
-		height: calc(584px + 36px);
+		height: calc(584px + 10px);
 
 		& .cells,
 		.shadow,
 		.overlay {
 			position: absolute;
 			width: 100%;
-			height: calc(100% - 36px);
+			height: calc(100% - 10px);
 			top: 2.25rem;
 			left: 0;
 		}
@@ -125,6 +133,20 @@
 			& > svg {
 				height: 100%;
 			}
+		}
+	}
+
+	@media (max-width: 639px) {
+		.board {
+			width: 335px;
+			height: calc(310px + 10px);
+		}
+		.board .cells {
+			padding: 6px 2px 24px 7px;
+		}
+		.board .cells .cell {
+			width: 40px;
+			height: 45px;
 		}
 	}
 </style>
