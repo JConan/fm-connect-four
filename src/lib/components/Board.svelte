@@ -87,27 +87,24 @@
 	.board {
 		position: relative;
 		width: 632px;
-		height: calc(584px + 10px);
+		height: calc(584px + 36px + 10px);
 
 		& .cells,
 		.shadow,
 		.overlay {
 			position: absolute;
 			width: 100%;
-			height: calc(100% - 10px);
+			height: calc(100% - 36px);
 			top: 2.25rem;
 			left: 0;
 		}
-		& .shadow {
-			height: calc(100% + 10px);
-			z-index: -1;
-		}
+
 		& .overlay,
 		.shadow {
 			pointer-events: none;
 		}
 		& .cells {
-			padding: 18px 2px 38px 15px;
+			padding: 18px 1px 48px 15px;
 			display: grid;
 			grid-template-columns: repeat(7, 1fr);
 			& .cell {
@@ -136,10 +133,39 @@
 		}
 	}
 
+	@media (max-width: 767px) {
+		.board {
+			height: calc(584px + 10px);
+		}
+
+		.board .cells,
+		.board .shadow,
+		.board .overlay {
+			top: 0;
+			height: calc(100% - 10px);
+		}
+		.board .shadow {
+			height: 100%;
+		}
+		.board .cells {
+			padding: 18px 2px 38px 15px;
+		}
+	}
+
 	@media (max-width: 639px) {
 		.board {
 			width: 335px;
 			height: calc(310px + 10px);
+		}
+
+		.board .cells,
+		.board .shadow,
+		.board .overlay {
+			top: 0;
+			height: calc(100% - 10px);
+		}
+		.board .shadow {
+			height: 100%;
 		}
 		.board .cells {
 			padding: 6px 2px 24px 7px;
