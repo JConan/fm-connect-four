@@ -70,7 +70,7 @@
 
 		& .icon-button {
 			margin: auto;
-			margin-top: 45px;
+			margin-top: 80px;
 		}
 	}
 
@@ -81,7 +81,7 @@
 			padding: 20px;
 		}
 		.container .icon-button {
-			margin-top: 35px;
+			margin-bottom: 80px;
 		}
 	}
 </style>

@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { inlineSvg } from '@svelte-put/inline-svg';
-	import { base } from '$app/paths';
-	import { onMount } from 'svelte';
+	import Board from '$lib/components/Board.svelte';
+	import type { Readable } from 'svelte/store';
 
 	const marks = {
 		red: "<svg use:inlineSvg={base + '/images/counter-red-large.svg'} />",
@@ -9,27 +8,13 @@
 	};
 
 	let turn: 'red' | 'yellow' = 'red';
-
-	let targetX: number;
-	function calcTargetX(index: number) {
-		const cursorRect = document.querySelectorAll('.board-cursor svg')[0].getClientRects()[0];
-		const boardRect = document.getElementsByClassName('board')[0].getClientRects()[0];
-		const cellRect = document.querySelectorAll('.board-cell')[index % 7].getClientRects()[0];
-		targetX = cellRect.x + Math.floor((cellRect.width - cursorRect.width) / 2) - boardRect.x;
-	}
-
-	onMount(() => {
-		calcTargetX(0);
-	});
 </script>
 
-<div class="board-cursor">
-	<svg
-		style={`margin-left: ${targetX}px`}
-		use:inlineSvg={base + '/images/marker-red.svg'}
-		width="38"
-	/>
-</div>
+<main>
+	<Board />
+</main>
+
+<!-- 
 <div class="board">
 	{#each Array(7 * 6) as _, index}
 		<div
@@ -41,13 +26,14 @@
 				calcTargetX(index);
 			}}
 		>
-			<!-- <svg use:inlineSvg={base + '/images/counter-red-large.svg'} /> -->
-		</div>
+			 <svg use:inlineSvg={base + '/images/counter-red-large.svg'} />
+		</div> 
 	{/each}
 	<svg class="board-shadow" use:inlineSvg={base + '/images/board-layer-black-large.svg'} />
 	<svg class="board-overlay" use:inlineSvg={base + '/images/board-layer-white-large.svg'} />
-</div>
-
+</div> 
+-->
+<!-- 
 <style>
 	.board {
 		position: relative;
@@ -95,5 +81,12 @@
 			transition: all 0.2s ease;
 			height: 100%;
 		}
+	}
+</style> -->
+
+<style>
+	main {
+		position: relative;
+		padding-top: 2.25rem;
 	}
 </style>

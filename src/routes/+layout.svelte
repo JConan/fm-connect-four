@@ -44,6 +44,8 @@
 <style>
 	div {
 		display: grid;
+		place-items: center;
 		gap: 0;
+		height: 100dvh;
 	}
 </style>
