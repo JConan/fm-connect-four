@@ -7,6 +7,8 @@ import type { KIT_ROUTES } from '$lib/ROUTES';
 export default defineConfig({
 	plugins: [sveltekit(), kitRoutes<KIT_ROUTES>()],
 	test: {
+		globals: true,
+		environment: 'jsdom',
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	}
 });

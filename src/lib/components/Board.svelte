@@ -4,6 +4,8 @@
 	import { onMount } from 'svelte';
 	import { derived, writable } from 'svelte/store';
 	import { fly } from 'svelte/transition';
+	import Counter from './Counter.svelte';
+	import { board, setCounter, type CounterColor } from '$lib/stores/board';
 
 	const column = writable(0);
 	const prevColumn = writable(0);
@@ -18,7 +20,7 @@
 		});
 	});
 
-	let hoverTimeout: number = -1;
+	let hoverTimeout: NodeJS.Timeout | undefined = undefined;
 	let hoverDelay = 200;
 	function onHoverColumn(index: number) {
 		return () => {
@@ -31,21 +33,32 @@
 			}, hoverDelay * 0.75);
 		};
 	}
+
+	let color: CounterColor = 'red';
+	function onSelectColumn(index: number) {
+		return (event: Event) => {
+			setCounter({ indexColumn: index % 7, color });
+			color = color === 'red' ? 'yellow' : 'red';
+		};
+	}
 </script>
 
 <div class="board">
 	<svg class="shadow" use:inlineSvg={base + '/images/board-layer-black-large.svg'} height="594" />
 	<div class="cells">
 		{#each Array(7 * 6) as _, index}
-			<div
+			<button
 				class="cell"
 				id={`board-cell-${index}`}
 				role="cell"
 				tabindex="0"
 				on:mouseenter={onHoverColumn(index)}
+				on:click={onSelectColumn(index)}
 			>
-				<svg use:inlineSvg={base + '/images/counter-red-large.svg'} />
-			</div>
+				{#if $board[index]}
+					<Counter color={$board[index]} />
+				{/if}
+			</button>
 		{/each}
 	</div>
 	<svg class="overlay" use:inlineSvg={base + '/images/board-layer-white-large.svg'} />
@@ -54,7 +67,7 @@
 			<svg
 				in:fly={{ x: -x, duration: hoverDelay, opacity: 1 }}
 				style={`grid-area: cell-${$data.column}`}
-				use:inlineSvg={base + '/images/marker-red.svg'}
+				use:inlineSvg={base + '/images/marker-' + color + '.svg'}
 				width="38"
 				height="30"
 			/>
@@ -86,10 +99,16 @@
 			pointer-events: none;
 		}
 		& .cells {
-			padding: 18px 0px 39.5px 17.5px;
+			padding: 18px 2px 38px 15px;
 			display: grid;
 			grid-template-columns: repeat(7, 1fr);
-			/* gap: 20px; */
+			& .cell {
+				border: none;
+				background: none;
+				width: 75px;
+				height: 70px;
+				padding: 0;
+			}
 		}
 
 		& .board-cursor {
