@@ -1,18 +1,31 @@
-import { writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 
-export type CounterColor = 'red' | 'yellow';
+export type PlayerColor = 'red' | 'yellow';
+export type BoardGrid = (PlayerColor | undefined)[];
+export type BoardState = {
+	turn: PlayerColor;
+	grid: BoardGrid;
+};
 
-const initialBoard = Array<CounterColor | undefined>(7 * 6).fill(undefined);
+const initialBoardGrid: BoardGrid = Array<PlayerColor | undefined>(7 * 6).fill(undefined);
+const initialPlayerTurn: PlayerColor = 'red';
+const turn = writable<PlayerColor>(initialPlayerTurn);
+const boardGrid = writable(initialBoardGrid);
 
-const { set, update, subscribe } = writable(initialBoard);
-export const board = { subscribe };
+export const boardStore = derived([boardGrid, turn], ([$boardGrid, $turn]) => {
+	const boardState: BoardState = {
+		grid: $boardGrid,
+		turn: $turn
+	};
+	return boardState;
+});
 
-export function setCounter(data: { indexColumn: number; color: CounterColor }) {
+export function setCounter(data: { indexColumn: number }) {
 	return new Promise((resolve) => {
-		update(($board) => {
-			const board = [...$board];
+		boardGrid.update(($boardGrid) => {
+			const boardGrid = [...$boardGrid];
 
-			const emptyColumn = $board
+			const emptyColumn = $boardGrid
 				.map((value, index) => ({
 					value,
 					column: index % 7,
@@ -22,16 +35,20 @@ export function setCounter(data: { indexColumn: number; color: CounterColor }) {
 				.pop();
 
 			if (emptyColumn) {
-				board[emptyColumn.index] = data.color;
+				turn.update(($turn) => {
+					boardGrid[emptyColumn.index] = $turn;
+					return $turn === 'red' ? 'yellow' : 'red';
+				});
 				resolve(true);
-				return board;
+				return boardGrid;
 			}
 			resolve(false);
-			return $board;
+			return $boardGrid;
 		});
 	});
 }
 
 export function resetBoard() {
-	set(initialBoard);
+	boardGrid.set(initialBoardGrid);
+	turn.set(initialPlayerTurn);
 }

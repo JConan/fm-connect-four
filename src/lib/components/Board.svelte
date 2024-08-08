@@ -2,8 +2,8 @@
 	import { onMount } from 'svelte';
 	import { derived, writable } from 'svelte/store';
 	import { fly } from 'svelte/transition';
+	import { boardStore, resetBoard, setCounter } from '$lib/stores/board';
 	import Counter from './Counter.svelte';
-	import { board, setCounter, type CounterColor } from '$lib/stores/board';
 	import Image from './Image.svelte';
 
 	const column = writable(0);
@@ -12,6 +12,7 @@
 	let x = 0;
 	const data = derived([column, prevColumn], ([column, prevColumn]) => ({ column, prevColumn }));
 	onMount(() => {
+		resetBoard();
 		data.subscribe(({ column, prevColumn }) => {
 			const currentCell = document.getElementById(`board-cell-${prevColumn}`)!.getClientRects()[0];
 			const nextCell = document.getElementById(`board-cell-${column}`)!.getClientRects()[0];
@@ -33,11 +34,9 @@
 		};
 	}
 
-	let color: CounterColor = 'red';
 	function onSelectColumn(index: number) {
-		return async (event: Event) => {
-			if (await setCounter({ indexColumn: index % 7, color }))
-				color = color === 'red' ? 'yellow' : 'red';
+		return () => {
+			setCounter({ indexColumn: index % 7 });
 		};
 	}
 
@@ -60,8 +59,8 @@
 				on:mouseenter={onHoverColumn(index)}
 				on:click={onSelectColumn(index)}
 			>
-				{#if $board[index]}
-					<Counter color={$board[index]} />
+				{#if $boardStore.grid[index]}
+					<Counter color={$boardStore.grid[index]} />
 				{/if}
 			</button>
 		{/each}
@@ -74,7 +73,7 @@
 					in:fly={{ x: -x, duration: hoverDelay, opacity: 1 }}
 					style={`grid-area: cell-${$data.column}`}
 				>
-					<Image name={`marker-${color}`} />
+					<Image name={`marker-${$boardStore.turn}`} />
 				</div>
 			{/key}
 		</div>
