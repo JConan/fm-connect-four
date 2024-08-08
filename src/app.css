@@ -99,6 +99,8 @@
 	background-color: var(--btn-bg-color, var(--dark-purple));
 	color: var(--btn-color, var(--white));
 	border: none;
+	display: grid;
+	place-items: center;
 
 	&:hover,
 	&:active {
