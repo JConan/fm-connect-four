@@ -1,8 +1,7 @@
 <script>
 	import { base } from '$app/paths';
+	import Image from '$lib/components/Image.svelte';
 	import { route } from '$lib/ROUTES';
-
-	import { inlineSvg } from '@svelte-put/inline-svg';
 </script>
 
 <div class="container">
@@ -21,7 +20,7 @@
 	</ol>
 
 	<a class="icon-button raised-button button-red" href={base + route('/')}>
-		<svg use:inlineSvg={base + '/images/check.svg'} />
+		<Image name="check" />
 	</a>
 </div>
 
@@ -71,6 +70,9 @@
 		& .icon-button {
 			margin: auto;
 			margin-top: 80px;
+			& img {
+				width: 60%;
+			}
 		}
 	}
 

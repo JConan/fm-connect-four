@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import { inlineSvg } from '@svelte-put/inline-svg';
 	import { onMount } from 'svelte';
 	import { derived, writable } from 'svelte/store';
 	import { fly } from 'svelte/transition';
 	import Counter from './Counter.svelte';
 	import { board, setCounter, type CounterColor } from '$lib/stores/board';
+	import Image from './Image.svelte';
 
 	const column = writable(0);
 	const prevColumn = writable(0);
@@ -45,14 +44,12 @@
 	let innerWidth: number;
 	let imageSize: 'small' | 'large' = 'large';
 	$: imageSize = innerWidth < 640 ? 'small' : 'large';
-
-	$: console.log({ innerWidth });
 </script>
 
 <svelte:window bind:innerWidth />
 
 <div class="board">
-	<svg class="shadow" use:inlineSvg={`${base}/images/board-layer-black-${imageSize}.svg`} />
+	<Image class="shadow" name="board-layer-black" />
 	<div class="cells">
 		{#each Array(7 * 6) as _, index}
 			<button
@@ -64,20 +61,21 @@
 				on:click={onSelectColumn(index)}
 			>
 				{#if $board[index]}
-					<Counter color={$board[index]} {imageSize} />
+					<Counter color={$board[index]} />
 				{/if}
 			</button>
 		{/each}
 	</div>
-	<svg class="overlay" use:inlineSvg={`${base}/images/board-layer-white-${imageSize}.svg`} />
+	<Image class="overlay" name="board-layer-white" />
 	{#if innerWidth > 768}
 		<div class="board-cursor">
 			{#key $data.column}
-				<svg
+				<div
 					in:fly={{ x: -x, duration: hoverDelay, opacity: 1 }}
 					style={`grid-area: cell-${$data.column}`}
-					use:inlineSvg={`${base}/images/marker-${color}.svg`}
-				/>
+				>
+					<Image name={`marker-${color}`} />
+				</div>
 			{/key}
 		</div>
 	{/if}
@@ -85,26 +83,24 @@
 
 <style>
 	.board {
-		position: relative;
-		width: 632px;
-		height: calc(584px + 36px + 10px);
+		--board-width: 632px;
+		--board-height: 584px;
+		--board-cursor-height: 36px;
+		--board-shadow-extra: 10px;
 
-		& .cells,
-		.shadow,
-		.overlay {
+		position: relative;
+		width: var(--board-width);
+		height: calc(var(--board-height) + var(--board-cursor-height) + var(--board-shadow-extra));
+
+		& > * {
 			position: absolute;
 			width: 100%;
-			height: calc(100% - 36px);
-			top: 2.25rem;
+			height: calc(100% - var(--board-cursor-height) - var(--board-shadow-extra));
+			top: var(--board-cursor-height);
 			left: 0;
 		}
-
-		& .overlay,
-		.shadow {
-			pointer-events: none;
-		}
 		& .cells {
-			padding: 18px 1px 48px 15px;
+			padding: 18px 1px 38px 15px;
 			display: grid;
 			grid-template-columns: repeat(7, 1fr);
 			& .cell {
@@ -127,45 +123,32 @@
 			padding: 0 0.5rem;
 			grid-template-areas: ' cell-0 cell-1 cell-2 cell-3 cell-4 cell-5 cell-6';
 
-			& > svg {
+			& > * {
 				height: 100%;
 			}
 		}
 	}
 
+	.board :global(.overlay) {
+		pointer-events: none;
+	}
+	.board :global(.shadow) {
+		height: calc(100% - var(--board-cursor-height));
+	}
+
 	@media (max-width: 767px) {
 		.board {
-			height: calc(584px + 10px);
-		}
-
-		.board .cells,
-		.board .shadow,
-		.board .overlay {
-			top: 0;
-			height: calc(100% - 10px);
-		}
-		.board .shadow {
-			height: 100%;
+			--board-cursor-height: 0px;
 		}
 		.board .cells {
-			padding: 18px 2px 38px 15px;
+			padding: 16px 2px 38px 15px;
 		}
 	}
 
 	@media (max-width: 639px) {
 		.board {
-			width: 335px;
-			height: calc(310px + 10px);
-		}
-
-		.board .cells,
-		.board .shadow,
-		.board .overlay {
-			top: 0;
-			height: calc(100% - 10px);
-		}
-		.board .shadow {
-			height: 100%;
+			--board-width: 335px;
+			--board-height: 310px;
 		}
 		.board .cells {
 			padding: 6px 2px 24px 7px;

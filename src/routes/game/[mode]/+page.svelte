@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import Board from '$lib/components/Board.svelte';
 	import { route } from '$lib/ROUTES';
-	import { inlineSvg } from '@svelte-put/inline-svg';
+	import Board from '$lib/components/Board.svelte';
+	import Image from '$lib/components/Image.svelte';
 </script>
 
 <main>
 	<div class="menu">
 		<a href={`${base}${route('/')}`} class="flat-button button-purple">Menu</a>
-		<svg class="logo" use:inlineSvg={`${base}/images/logo.svg`}></svg>
+		<Image class="logo" name="logo" />
 		<button class="flat-button button-purple">Restart</button>
 	</div>
 	<Board />
 
 	<div class="display-turn">
-		<img src={`${base}/images/turn-background-red.svg`} alt="display turn" />
+		<Image name="turn-background-red" />
 		<span>Player 1's turn</span>
 		<span>3s</span>
 	</div>
@@ -74,6 +74,10 @@
 			width: 191px;
 			height: 150px;
 			margin-top: -30px;
+		}
+		:global(.logo) {
+			width: 40px;
+			height: 40px;
 		}
 	}
 </style>
