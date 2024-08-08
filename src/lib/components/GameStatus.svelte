@@ -26,7 +26,7 @@
 </script>
 
 <div class="display-turn">
-	<Image name="turn-background-red" />
+	<Image name={`turn-background-${$boardStore.turn}`} />
 	<span>{playerLabel} turn</span>
 	<span>{timer}s</span>
 </div>
