@@ -67,6 +67,8 @@
 	color: var(--black);
 }
 .button-red {
+	--btn-bg-color: var(--red);
+	--btn-color: var(--white);
 	background-color: var(--red);
 	color: var(--white);
 }
@@ -75,17 +77,21 @@
 	color: var(--black);
 }
 .button-purple {
+	--btn-bg-color: var(--purple);
+	--btn-color: var(--white);
 	background-color: var(--purple);
 	color: var(--white);
 }
 
 .button-dark-purple {
+	--btn-bg-color: var(--dark-purple);
+	--btn-color: var(--white);
 	background-color: var(--dark-purple);
 	color: var(--white);
 }
 
 .flat-button {
-	width: 86px;
+	width: 108px;
 	height: 39px;
 	border-radius: 20px;
 	font-size: 16px;
@@ -95,7 +101,7 @@
 	border: none;
 
 	&:hover,
-	&:focus {
+	&:active {
 		outline: none;
 		background-color: var(--btn-hover-color, var(--red));
 	}
