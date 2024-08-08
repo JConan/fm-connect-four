@@ -1,36 +1,21 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { derived, writable } from 'svelte/store';
-	import { fly } from 'svelte/transition';
-	import { boardStore, resetBoard, setCounter } from '$lib/stores/board';
+	import { boardStore, resetBoard, setActiveColumn, setCounter } from '$lib/stores/board';
 	import Counter from './Counter.svelte';
 	import Image from './Image.svelte';
+	import BoardCursor from './BoardCursor.svelte';
 
-	const column = writable(0);
-	const prevColumn = writable(0);
-
-	let x = 0;
-	const data = derived([column, prevColumn], ([column, prevColumn]) => ({ column, prevColumn }));
 	onMount(() => {
 		resetBoard();
-		data.subscribe(({ column, prevColumn }) => {
-			const currentCell = document.getElementById(`board-cell-${prevColumn}`)!.getClientRects()[0];
-			const nextCell = document.getElementById(`board-cell-${column}`)!.getClientRects()[0];
-			x = nextCell.x - currentCell.x;
-		});
 	});
 
 	let hoverTimeout: NodeJS.Timeout | undefined = undefined;
-	let hoverDelay = 200;
 	function onHoverColumn(index: number) {
 		return () => {
 			clearTimeout(hoverTimeout);
 			hoverTimeout = setTimeout(() => {
-				column.update(($column) => {
-					prevColumn.set($column);
-					return index % 7;
-				});
-			}, hoverDelay * 0.75);
+				setActiveColumn(index);
+			}, 150);
 		};
 	}
 
@@ -39,13 +24,7 @@
 			setCounter({ indexColumn: index % 7 });
 		};
 	}
-
-	let innerWidth: number;
-	let imageSize: 'small' | 'large' = 'large';
-	$: imageSize = innerWidth < 640 ? 'small' : 'large';
 </script>
-
-<svelte:window bind:innerWidth />
 
 <div class="board">
 	<Image class="shadow" name="board-layer-black" />
@@ -66,18 +45,7 @@
 		{/each}
 	</div>
 	<Image class="overlay" name="board-layer-white" />
-	{#if innerWidth > 768}
-		<div class="board-cursor">
-			{#key $data.column}
-				<div
-					in:fly={{ x: -x, duration: hoverDelay, opacity: 1 }}
-					style={`grid-area: cell-${$data.column}`}
-				>
-					<Image name={`marker-${$boardStore.turn}`} />
-				</div>
-			{/key}
-		</div>
-	{/if}
+	<BoardCursor />
 </div>
 
 <style>
@@ -91,13 +59,6 @@
 		width: var(--board-width);
 		height: calc(var(--board-height) + var(--board-cursor-height) + var(--board-shadow-extra));
 
-		& > * {
-			position: absolute;
-			width: 100%;
-			height: calc(100% - var(--board-cursor-height) - var(--board-shadow-extra));
-			top: var(--board-cursor-height);
-			left: 0;
-		}
 		& .cells {
 			padding: 18px 1px 38px 15px;
 			display: grid;
@@ -110,22 +71,16 @@
 				padding: 0;
 			}
 		}
+	}
 
-		& .board-cursor {
-			position: absolute;
-			top: 0;
-			width: 39.5rem;
-			height: 2.25rem;
-			display: grid;
-			grid-template-columns: repeat(7, 1fr);
-			place-items: center;
-			padding: 0 0.5rem;
-			grid-template-areas: ' cell-0 cell-1 cell-2 cell-3 cell-4 cell-5 cell-6';
-
-			& > * {
-				height: 100%;
-			}
-		}
+	.board > :global(.overlay),
+	.board > :global(.shadow),
+	.board > .cells {
+		position: absolute;
+		width: 100%;
+		height: calc(100% - var(--board-cursor-height) - var(--board-shadow-extra));
+		top: var(--board-cursor-height);
+		left: 0;
 	}
 
 	.board :global(.overlay) {

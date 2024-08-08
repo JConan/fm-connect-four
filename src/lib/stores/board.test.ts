@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { boardStore, resetBoard, setCounter } from './board';
+import { boardStore, resetBoard, setActiveColumn, setCounter } from './board';
 
 describe('board store', () => {
 	beforeEach(resetBoard);
@@ -40,5 +40,18 @@ describe('board store', () => {
 
 		await setCounter({ indexColumn: 0 });
 		expect(get(boardStore).turn).toBe('red');
+	});
+
+	it('should have index 0 as active column', () => {
+		expect(get(boardStore).activeColumn).toBe(0);
+	});
+
+	it('should be able to set active column by cell index', () => {
+		setActiveColumn(2 + 7);
+		expect(get(boardStore).activeColumn).toBe(2);
+	});
+	it('should be able to set active column by its index', () => {
+		setActiveColumn(6);
+		expect(get(boardStore).activeColumn).toBe(6);
 	});
 });
