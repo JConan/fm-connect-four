@@ -3,13 +3,19 @@
 	import { route } from '$lib/ROUTES';
 	import Board from '$lib/components/Board.svelte';
 	import Image from '$lib/components/Image.svelte';
+	import { resetBoard } from '$lib/stores/board';
 </script>
 
 <main>
 	<div class="menu">
 		<a href={`${base}${route('/')}`} class="flat-button button-purple">Menu</a>
 		<Image class="logo" name="logo" />
-		<button class="flat-button button-purple">Restart</button>
+		<button
+			class="flat-button button-purple"
+			on:click={() => {
+				resetBoard();
+			}}>Restart</button
+		>
 	</div>
 	<Board />
 
