@@ -9,15 +9,14 @@
 	let pixels = 500;
 	let directions: Record<string, [object, object]> = {
 		// from home
-		'to:rule': [{ x: pixels }, { x: -pixels }],
-		'to:game': [{ y: pixels }, { y: -pixels }],
+		'to:rule': [{ y: pixels }, { y: -pixels }],
+		'to:game': [{ y: -pixels }, { y: pixels }],
 
 		// to home
-		'from:rule': [{ x: -pixels }, { x: pixels }],
-		'from:game': [{ y: -pixels }, { y: pixels }],
+		'from:rule': [{ y: -pixels }, { y: pixels }],
+		'from:game': [{ y: pixels }, { y: -pixels }],
 
-		// fallback
-		undefined: [{}, {}]
+		fallback: [{}, {}]
 	};
 
 	$: direction = $navigating
@@ -28,14 +27,14 @@
 			: $navigating?.from?.route.id === '/rule'
 				? 'from:rule'
 				: 'from:game'
-		: undefined;
+		: 'fallback';
 </script>
 
 {#key data.url}
 	<!-- <div in:fly={{ x: -400, duration: 600, delay: 600 }} out:fly={{ x: 400, duration: 600 }}> -->
 	<div
-		in:fly={{ ...directions[direction ?? 'undefined'][0], duration: 600, delay: 600 }}
-		out:fly={{ ...directions[direction ?? 'undefined'][1], duration: 600 }}
+		in:fly={{ ...directions[direction][0], duration: 600, delay: 600 }}
+		out:fly={{ ...directions[direction][1], duration: 600 }}
 	>
 		<slot />
 	</div>

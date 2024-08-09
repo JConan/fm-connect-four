@@ -20,8 +20,14 @@
 
 <style>
 	.menu {
+		grid-area: menu;
 		display: flex;
 		justify-content: space-between;
 		margin: 20px 0 10px 0;
+	}
+
+	:global(.logo) {
+		width: 40px;
+		height: 40px;
 	}
 </style>

@@ -27,7 +27,7 @@
 	}
 </script>
 
-<div>
+<div class="board-container">
 	<div class="board">
 		<div class="board-grid">
 			<Image class="shadow" name="board-layer-black" />
@@ -55,6 +55,9 @@
 </div>
 
 <style>
+	.board-container {
+		grid-area: board;
+	}
 	.board-grid {
 		--board-width: 632px;
 		--board-height: 584px;
