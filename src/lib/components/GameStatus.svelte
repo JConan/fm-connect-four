@@ -24,7 +24,7 @@
 	});
 </script>
 
-<div class="display-turn">
+<div class={`display-turn ${$boardStore.turn}`}>
 	<Image name={`turn-background-${$boardStore.turn}`} />
 	<span>{playerLabel} turn</span>
 	<span>{timer}s</span>
@@ -40,12 +40,18 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		color: white;
 		background-size: cover;
 		font-size: 16px;
 		font-weight: 700;
 		margin: auto;
 		margin-top: -50px;
+
+		&.red {
+			color: white;
+		}
+		&.yellow {
+			color: black;
+		}
 
 		& > span {
 			margin-top: 20px;
