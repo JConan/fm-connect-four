@@ -99,7 +99,7 @@
 		height: calc(100% - var(--board-cursor-height));
 	}
 
-	@media (max-width: 767px) {
+	@media (max-width: 1079px) {
 		.board-grid {
 			--board-cursor-height: 0px;
 		}

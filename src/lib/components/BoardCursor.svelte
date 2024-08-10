@@ -33,7 +33,7 @@
 
 <svelte:window bind:innerWidth />
 
-{#if innerWidth > 768}
+{#if innerWidth > 1079}
 	<div class="board-cursor">
 		{#key $columnStore.current}
 			<div

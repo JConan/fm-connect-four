@@ -20,7 +20,7 @@
 			'player-one board player-two';
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 1079px) {
 		main {
 			grid-template-areas:
 				'menu menu menu'

@@ -53,6 +53,7 @@
 	.container {
 		width: 100dvw;
 		transition: background-color 300ms ease;
+		overflow: auto;
 
 		& > div {
 			display: grid;

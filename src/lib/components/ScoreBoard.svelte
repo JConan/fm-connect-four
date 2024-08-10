@@ -50,9 +50,9 @@
 	.score-board > :global(.icon) {
 		margin-top: -40px;
 	}
-	@media (max-width: 768px) {
+	@media (max-width: 1079px) {
 		.score-board {
-			margin: 20px 16px 0px 16px;
+			margin: 16px 16px 26px 16px;
 			width: 272px;
 			height: 100px;
 			grid-template-columns: 0.5fr 2fr 2fr;
