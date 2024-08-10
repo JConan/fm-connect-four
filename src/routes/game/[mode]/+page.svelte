@@ -13,6 +13,7 @@
 
 <style>
 	main {
+		height: 100%;
 		display: grid;
 		grid-template-areas:
 			'. menu .'

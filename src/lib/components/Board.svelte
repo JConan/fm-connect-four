@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { boardStore, resetBoard, setActiveColumn, setCounter } from '$lib/stores/board';
+	import { boardStore, resetBoard, setActiveColumn, setCounter, winner } from '$lib/stores/board';
 	import Counter from './Counter.svelte';
 	import Image from './Image.svelte';
 	import BoardCursor from './BoardCursor.svelte';
@@ -55,7 +55,11 @@
 		</div>
 	</div>
 	<GameStatus />
-	<div class="game-status-background" in:fly={{ delay: 1000, y: 300 }}></div>
+	<div
+		class="game-status-background"
+		in:fly={{ delay: 1000, y: 300 }}
+		style={`background-color: var(--${$winner ? $winner : 'dark-purple'})`}
+	></div>
 </div>
 
 <style>
@@ -92,7 +96,6 @@
 		margin-top: -200px;
 		height: 200px;
 		width: 100dvw;
-		background-color: var(--dark-purple);
 		border-radius: 60px 60px 0 0;
 		z-index: -1;
 		position: absolute;

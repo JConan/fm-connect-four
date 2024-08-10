@@ -58,8 +58,7 @@
 
 		& > div {
 			display: grid;
-			align-items: end;
-			justify-items: center;
+			place-items: center;
 			gap: 0;
 			height: 100dvh;
 			z-index: 1;
