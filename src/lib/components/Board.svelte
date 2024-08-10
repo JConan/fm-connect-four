@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { boardStore, resetBoard, setActiveColumn, setCounter, winner } from '$lib/stores/board';
+	import {
+		boardStore,
+		isPause,
+		resetBoard,
+		setActiveColumn,
+		setCounter,
+		winner
+	} from '$lib/stores/board';
 	import Counter from './Counter.svelte';
 	import Image from './Image.svelte';
 	import BoardCursor from './BoardCursor.svelte';
@@ -15,15 +22,19 @@
 	function onHoverColumn(index: number) {
 		return () => {
 			clearTimeout(hoverTimeout);
-			hoverTimeout = setTimeout(() => {
-				setActiveColumn(index);
-			}, 150);
+			if (!$isPause) {
+				hoverTimeout = setTimeout(() => {
+					setActiveColumn(index);
+				}, 150);
+			}
 		};
 	}
 
 	function onSelectColumn(index: number) {
 		return () => {
-			setCounter({ indexColumn: index % 7 });
+			if (!$isPause) {
+				setCounter({ indexColumn: index % 7 });
+			}
 		};
 	}
 </script>

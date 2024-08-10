@@ -1,26 +1,37 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Image from './Image.svelte';
-	import { boardStore, gameCounterStore } from '$lib/stores/board';
+	import { boardStore, gameCounterStore, isPause } from '$lib/stores/board';
 	import type { PlayerColor } from '$lib/stores/board';
 	import { fly } from 'svelte/transition';
 
 	let current: PlayerColor = 'red';
-	let timer = 31;
+	let timer = 30;
 
 	$: playerLabel = current === 'red' ? "Player 1's" : "Player 2's";
 	$: if ($gameCounterStore) {
 		current = 'red';
-		timer = 30;
+		resetTimer(1000);
 	}
 	$: if ($boardStore.turn !== current) {
 		current = $boardStore.turn;
+		resetTimer(1000);
+	}
+
+	function resetTimer(milliseconds?: number) {
 		timer = 30;
+		if (milliseconds) {
+			$isPause = true;
+			setTimeout(() => {
+				$isPause = false;
+			}, milliseconds);
+		}
 	}
 
 	onMount(() => {
+		resetTimer(3000);
 		const scheduler = setInterval(() => {
-			timer = timer - 1;
+			if (!$isPause) timer = timer - 1;
 		}, 1000);
 		return () => {
 			clearInterval(scheduler);
@@ -31,7 +42,7 @@
 <div in:fly={{ delay: 1000, y: 300 }} class={`display-turn ${$boardStore.turn}`}>
 	<Image name={`turn-background-${$boardStore.turn}`} />
 	<span>{playerLabel} turn</span>
-	<span>{timer}s</span>
+	<span class:pause={$isPause}>{timer}s</span>
 </div>
 
 <style>
@@ -52,12 +63,19 @@
 
 		&.red {
 			color: white;
+			& > span.pause {
+				color: #ffffff60;
+			}
 		}
 		&.yellow {
 			color: black;
+			& > span.pause {
+				color: #00000060;
+			}
 		}
 
 		& > span {
+			transition: color 250ms ease;
 			margin-top: 20px;
 			z-index: 1;
 			&:first-child {

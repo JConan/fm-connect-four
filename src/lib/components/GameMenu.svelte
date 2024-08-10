@@ -1,27 +1,28 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { route } from '$lib/ROUTES';
-	import { resetBoard } from '$lib/stores/board';
+	import { isPause, resetBoard } from '$lib/stores/board';
 	import Image from '$lib/components/Image.svelte';
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
 
 	let dialog: HTMLDialogElement;
 
-	const onMenu = () => dialog.showModal();
-	const onContinue = () => dialog.close();
+	const onMenu = () => {
+		dialog.showModal();
+		$isPause = true;
+	};
+	const onContinue = () => {
+		dialog.close();
+		$isPause = false;
+	};
 	const onRestart = () => {
 		resetBoard();
-		dialog.close();
+		onContinue();
 	};
 	const onQuit = () => {
-		dialog.close();
+		onContinue();
 		goto(`${base}${route('/')}`);
 	};
-
-	onMount(() => {
-		dialog.showModal();
-	});
 </script>
 
 <div class="menu">

@@ -53,7 +53,7 @@
 	.container {
 		width: 100dvw;
 		transition: background-color 300ms ease;
-		overflow: auto;
+		overflow: hidden;
 		z-index: 0;
 
 		& > div {

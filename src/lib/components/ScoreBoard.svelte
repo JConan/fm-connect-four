@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { boardStore, type PlayerColor } from '$lib/stores/board';
+	import { boardStore, isPause, type PlayerColor } from '$lib/stores/board';
 	import { fly } from 'svelte/transition';
 	import Image from './Image.svelte';
 
@@ -8,7 +8,7 @@
 
 <div class={`score-board ${player}`} in:fly={{ x: 300 * (player === 'red' ? -1 : 1), delay: 1000 }}>
 	<Image
-		class={`${player === $boardStore.turn ? 'active' : ''} icon ${player}`}
+		class={`${!$isPause && player === $boardStore.turn ? 'active' : ''} icon ${player}`}
 		name={player === 'red' ? 'player-one' : 'player-two'}
 	/>
 	<span>

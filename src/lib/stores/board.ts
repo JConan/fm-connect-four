@@ -15,6 +15,7 @@ const boardGrid = writable(initialBoardGrid);
 const activeColumn = writable(0);
 export const gameCounterStore = writable(0);
 export const winner = writable<PlayerColor | undefined>();
+export const isPause = writable(false);
 
 export const boardStore = derived(
 	[boardGrid, turn, activeColumn],
