@@ -4,6 +4,7 @@
 	import { resetBoard } from '$lib/stores/board';
 	import Image from '$lib/components/Image.svelte';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	let dialog: HTMLDialogElement;
 
@@ -17,6 +18,10 @@
 		dialog.close();
 		goto(`${base}${route('/')}`);
 	};
+
+	onMount(() => {
+		dialog.showModal();
+	});
 </script>
 
 <div class="menu">
@@ -69,6 +74,14 @@
 
 		&::backdrop {
 			background: #00000080;
+		}
+	}
+
+	@media (max-width: 679px) {
+		dialog[open] {
+			margin: auto;
+			min-width: max(335px, 95dvw);
+			height: max(437px, 65dvh);
 		}
 	}
 </style>
