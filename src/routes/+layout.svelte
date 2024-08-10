@@ -3,7 +3,7 @@
 
 	import type { LayoutData } from './$types';
 	export let data: LayoutData;
-	import { navigating } from '$app/stores';
+	import { navigating, page } from '$app/stores';
 	import { fly } from 'svelte/transition';
 
 	let pixels = 500;
@@ -28,23 +28,37 @@
 				? 'from:rule'
 				: 'from:game'
 		: 'fallback';
+
+	let innerWidth: number;
 </script>
 
-{#key data.url}
-	<!-- <div in:fly={{ x: -400, duration: 600, delay: 600 }} out:fly={{ x: 400, duration: 600 }}> -->
-	<div
-		in:fly={{ ...directions[direction][0], duration: 600, delay: 600 }}
-		out:fly={{ ...directions[direction][1], duration: 600 }}
-	>
-		<slot />
-	</div>
-{/key}
+<svelte:window bind:innerWidth />
+
+<div
+	class="container"
+	style={`background-color: ${innerWidth >= 640 && $page.route.id === '/' ? 'var(--dark-purple)' : 'var(--purple)'}`}
+>
+	{#key data.url}
+		<!-- <div in:fly={{ x: -400, duration: 600, delay: 600 }} out:fly={{ x: 400, duration: 600 }}> -->
+		<div
+			in:fly={{ ...directions[direction][0], duration: 600, delay: 600 }}
+			out:fly={{ ...directions[direction][1], duration: 600 }}
+		>
+			<slot />
+		</div>
+	{/key}
+</div>
 
 <style>
-	div {
-		display: grid;
-		place-items: center;
-		gap: 0;
-		height: 100dvh;
+	.container {
+		width: 100dvw;
+		transition: background-color 300ms ease;
+
+		& > div {
+			display: grid;
+			place-items: center;
+			gap: 0;
+			height: 100dvh;
+		}
 	}
 </style>

@@ -140,10 +140,6 @@
 }
 
 body {
-	background-color: var(--dark-purple);
-}
-
-body {
 	display: grid;
 	place-items: center;
 	height: 100vh;
@@ -159,8 +155,5 @@ a {
 	.text-button {
 		width: 335px;
 		height: 72px;
-	}
-	body {
-		background-color: var(--purple);
 	}
 }
