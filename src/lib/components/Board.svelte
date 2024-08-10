@@ -100,6 +100,7 @@
 		z-index: -1;
 		position: absolute;
 		left: 50%;
+		bottom: 0px;
 		transform: translateX(-50%);
 	}
 
@@ -140,6 +141,9 @@
 		.board-grid .cells .cell {
 			width: 40px;
 			height: 45px;
+		}
+		.board-container > .game-status-background {
+			height: 236px;
 		}
 	}
 </style>
