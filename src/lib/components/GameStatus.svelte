@@ -6,10 +6,13 @@
 	import { fly } from 'svelte/transition';
 
 	let current: PlayerColor = 'red';
-	let timer = 30;
+	let timer = 31;
 
 	$: playerLabel = current === 'red' ? "Player 1's" : "Player 2's";
-	$: if ($gameCounterStore) current = 'red';
+	$: if ($gameCounterStore) {
+		current = 'red';
+		timer = 30;
+	}
 	$: if ($boardStore.turn !== current) {
 		current = $boardStore.turn;
 		timer = 30;
