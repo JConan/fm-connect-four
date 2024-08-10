@@ -3,6 +3,7 @@
 	import Image from './Image.svelte';
 	import { boardStore, gameCounterStore } from '$lib/stores/board';
 	import type { PlayerColor } from '$lib/stores/board';
+	import { fly } from 'svelte/transition';
 
 	let current: PlayerColor = 'red';
 	let timer = 30;
@@ -24,7 +25,7 @@
 	});
 </script>
 
-<div class={`display-turn ${$boardStore.turn}`}>
+<div in:fly={{ delay: 1000, y: 300 }} class={`display-turn ${$boardStore.turn}`}>
 	<Image name={`turn-background-${$boardStore.turn}`} />
 	<span>{playerLabel} turn</span>
 	<span>{timer}s</span>

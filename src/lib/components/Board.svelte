@@ -54,15 +54,16 @@
 			</div>
 		</div>
 	</div>
-	<div in:fly={{ delay: 1000, y: 300 }}>
-		<GameStatus />
-	</div>
+	<GameStatus />
+	<div class="game-status-background" in:fly={{ delay: 1000, y: 300 }}></div>
 </div>
 
 <style>
 	.board-container {
+		position: relative;
 		grid-area: board;
 	}
+
 	.board-grid {
 		--board-width: 632px;
 		--board-height: 584px;
@@ -85,6 +86,18 @@
 				padding: 0;
 			}
 		}
+	}
+
+	.board-container > .game-status-background {
+		margin-top: -200px;
+		height: 200px;
+		width: 100dvw;
+		background-color: var(--dark-purple);
+		border-radius: 60px 60px 0 0;
+		z-index: -1;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
 	.board-grid > :global(.overlay),

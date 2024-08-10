@@ -54,12 +54,15 @@
 		width: 100dvw;
 		transition: background-color 300ms ease;
 		overflow: auto;
+		z-index: 0;
 
 		& > div {
 			display: grid;
-			place-items: center;
+			align-items: end;
+			justify-items: center;
 			gap: 0;
 			height: 100dvh;
+			z-index: 1;
 		}
 	}
 </style>

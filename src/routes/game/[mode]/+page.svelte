@@ -13,7 +13,6 @@
 
 <style>
 	main {
-		position: relative;
 		display: grid;
 		grid-template-areas:
 			'. menu .'
