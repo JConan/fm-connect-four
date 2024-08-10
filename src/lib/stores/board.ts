@@ -13,6 +13,7 @@ const initialPlayerTurn: PlayerColor = 'red';
 const turn = writable<PlayerColor>(initialPlayerTurn);
 const boardGrid = writable(initialBoardGrid);
 const activeColumn = writable(0);
+export const gameCounterStore = writable(0);
 
 export const boardStore = derived(
 	[boardGrid, turn, activeColumn],
@@ -58,6 +59,7 @@ export function resetBoard() {
 	boardGrid.set(initialBoardGrid);
 	turn.set(initialPlayerTurn);
 	activeColumn.set(0);
+	gameCounterStore.update(($counter) => $counter + 1);
 }
 
 export function setActiveColumn(index: number) {

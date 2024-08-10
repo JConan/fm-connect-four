@@ -1,24 +1,23 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Image from './Image.svelte';
-	import { boardStore } from '$lib/stores/board';
+	import { boardStore, gameCounterStore } from '$lib/stores/board';
 	import type { PlayerColor } from '$lib/stores/board';
 
 	let current: PlayerColor = 'red';
 	let timer = 30;
 
 	$: playerLabel = current === 'red' ? "Player 1's" : "Player 2's";
+	$: if ($gameCounterStore) current = 'red';
+	$: if ($boardStore.turn !== current) {
+		current = $boardStore.turn;
+		timer = 30;
+	}
 
 	onMount(() => {
 		const scheduler = setInterval(() => {
 			timer = timer - 1;
 		}, 1000);
-		boardStore.subscribe(({ turn }) => {
-			if (turn !== current) {
-				current = turn;
-				timer = 30;
-			}
-		});
 		return () => {
 			clearInterval(scheduler);
 		};
