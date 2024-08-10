@@ -5,6 +5,7 @@
 	import Image from './Image.svelte';
 	import BoardCursor from './BoardCursor.svelte';
 	import GameStatus from './GameStatus.svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	onMount(() => {
 		resetBoard();
@@ -48,10 +49,14 @@
 				{/each}
 			</div>
 			<Image class="overlay" name="board-layer-white" />
-			<BoardCursor />
+			<div in:fade={{ delay: 1000 }}>
+				<BoardCursor />
+			</div>
 		</div>
 	</div>
-	<GameStatus />
+	<div in:fly={{ delay: 1000, y: 300 }}>
+		<GameStatus />
+	</div>
 </div>
 
 <style>

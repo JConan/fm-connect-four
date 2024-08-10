@@ -1,20 +1,24 @@
 <script lang="ts">
-	import type { PlayerColor } from '$lib/stores/board';
+	import { boardStore, type PlayerColor } from '$lib/stores/board';
+	import { fly } from 'svelte/transition';
 	import Image from './Image.svelte';
 
 	export let player: PlayerColor;
 </script>
 
-<div class={`score-board ${player}`}>
-	{#if player === 'red'}
-		<Image class="icon red" name="player-one" />
-		<span>Player 1</span>
-		<span>12</span>
-	{:else}
-		<Image class="icon yellow" name="player-two" />
-		<span>Player 2</span>
-		<span>23</span>
-	{/if}
+<div class={`score-board ${player}`} in:fly={{ x: 300 * (player === 'red' ? -1 : 1), delay: 1000 }}>
+	<Image
+		class={`${player === $boardStore.turn ? 'active' : ''} icon ${player}`}
+		name={player === 'red' ? 'player-one' : 'player-two'}
+	/>
+	<span>
+		{#if player === 'red'}
+			Player 1
+		{:else}
+			Player 2
+		{/if}
+	</span>
+	<span>12</span>
 </div>
 
 <style>
@@ -101,6 +105,23 @@
 		.score-board span:last-child {
 			grid-area: score;
 			font-size: 32px;
+		}
+	}
+
+	.score-board :global(.active) {
+		animation: bounceY 0.6s ease-in-out infinite;
+	}
+
+	@keyframes bounceY {
+		0%,
+		33% {
+			transform: translateY(10px);
+		}
+		66% {
+			transform: translateY(-10px);
+		}
+		100% {
+			transform: translateY(10px);
 		}
 	}
 </style>
