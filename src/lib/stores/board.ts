@@ -17,6 +17,8 @@ export const gameCounterStore = writable(0);
 export const winner = writable<PlayerColor | undefined>();
 export const isPause = writable(false);
 export const isTimeout = writable(false);
+export const playerOneScore = writable(0);
+export const playerTwoScore = writable(0);
 
 export const boardStore = derived(
 	[boardGrid, turn, activeColumn],

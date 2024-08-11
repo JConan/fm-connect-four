@@ -2,6 +2,13 @@
 	import Board from '$lib/components/Board.svelte';
 	import GameMenu from '$lib/components/GameMenu.svelte';
 	import ScoreBoard from '$lib/components/ScoreBoard.svelte';
+	import { playerOneScore, playerTwoScore } from '$lib/stores/board';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		$playerOneScore = 0;
+		$playerTwoScore = 0;
+	});
 </script>
 
 <main>

@@ -1,5 +1,12 @@
 <script lang="ts">
-	import { boardStore, isPause, type PlayerColor } from '$lib/stores/board';
+	import {
+		boardStore,
+		isPause,
+		playerOneScore,
+		playerTwoScore,
+		winner,
+		type PlayerColor
+	} from '$lib/stores/board';
 	import { fly } from 'svelte/transition';
 	import Image from './Image.svelte';
 	import { page } from '$app/stores';
@@ -11,6 +18,14 @@
 
 	const playerOneIcon = $page.params.mode === 'vs-player' ? 'player-one' : 'you';
 	const playerTwoIcon = $page.params.mode === 'vs-player' ? 'player-two' : 'cpu';
+
+	$: if ($winner === player) {
+		if (player === 'red') {
+			$playerOneScore += 1;
+		} else {
+			$playerTwoScore += 1;
+		}
+	}
 </script>
 
 <div class={`score-board ${player}`} in:fly={{ x: 300 * (player === 'red' ? -1 : 1), delay: 1000 }}>
@@ -25,7 +40,7 @@
 			{playerTwo}
 		{/if}
 	</span>
-	<span>12</span>
+	<span>{player === 'red' ? $playerOneScore : $playerTwoScore}</span>
 </div>
 
 <style>
