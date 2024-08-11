@@ -17,6 +17,7 @@
 * {
 	font-family: 'Space Grotesk';
 	box-sizing: border-box;
+	user-select: none;
 }
 
 .heading-large {

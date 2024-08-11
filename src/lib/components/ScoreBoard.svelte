@@ -2,20 +2,27 @@
 	import { boardStore, isPause, type PlayerColor } from '$lib/stores/board';
 	import { fly } from 'svelte/transition';
 	import Image from './Image.svelte';
+	import { page } from '$app/stores';
 
 	export let player: PlayerColor;
+
+	const playerOne = $page.params.mode === 'vs-player' ? 'player 1' : 'you';
+	const playerTwo = $page.params.mode === 'vs-player' ? 'player 2' : 'cpu';
+
+	const playerOneIcon = $page.params.mode === 'vs-player' ? 'player-one' : 'you';
+	const playerTwoIcon = $page.params.mode === 'vs-player' ? 'player-two' : 'cpu';
 </script>
 
 <div class={`score-board ${player}`} in:fly={{ x: 300 * (player === 'red' ? -1 : 1), delay: 1000 }}>
 	<Image
 		class={`${!$isPause && player === $boardStore.turn ? 'active' : ''} icon ${player}`}
-		name={player === 'red' ? 'player-one' : 'player-two'}
+		name={player === 'red' ? playerOneIcon : playerTwoIcon}
 	/>
 	<span>
 		{#if player === 'red'}
-			Player 1
+			{playerOne}
 		{:else}
-			Player 2
+			{playerTwo}
 		{/if}
 	</span>
 	<span>12</span>
@@ -37,6 +44,7 @@
 
 		font-size: 20px;
 		font-weight: 700;
+		text-transform: uppercase;
 
 		& > span:last-child {
 			font-size: 56px;
@@ -89,7 +97,7 @@
 			margin: 20px 16px 30px 16px;
 
 			grid-template-columns: 0.5fr 2fr;
-			grid-template-rows: auto auto;
+			grid-template-rows: 2fr auto;
 			grid-template-areas:
 				'icon title'
 				'icon score';
@@ -100,6 +108,7 @@
 		}
 		.score-board span:last-child {
 			grid-area: title;
+			margin-top: -10px;
 		}
 
 		.score-board span:last-child {
