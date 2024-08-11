@@ -32,6 +32,7 @@
 	@media (max-width: 639px) {
 		main {
 			width: 335px;
+			grid-template-rows: 100px 170px 1fr auto;
 		}
 	}
 </style>

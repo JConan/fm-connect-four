@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Image from './Image.svelte';
-	import { boardStore, gameCounterStore, isPause } from '$lib/stores/board';
+	import {
+		boardStore,
+		gameCounterStore,
+		isPause,
+		isTimeout,
+		resetBoard,
+		winner
+	} from '$lib/stores/board';
 	import type { PlayerColor } from '$lib/stores/board';
 	import { fly } from 'svelte/transition';
 
@@ -11,11 +18,17 @@
 	$: playerLabel = current === 'red' ? "Player 1's" : "Player 2's";
 	$: if ($gameCounterStore) {
 		current = 'red';
-		resetTimer(1000);
+		resetTimer($isTimeout ? 2000 : 1000);
+		$isTimeout = false;
 	}
 	$: if ($boardStore.turn !== current) {
 		current = $boardStore.turn;
 		resetTimer(1000);
+	}
+	$: if (timer <= 0) {
+		$isTimeout = true;
+		$isPause = true;
+		$winner = $boardStore.turn === 'red' ? 'yellow' : 'red';
 	}
 
 	function resetTimer(milliseconds?: number) {
@@ -39,11 +52,27 @@
 	});
 </script>
 
-<div in:fly={{ delay: 1000, y: 300 }} class={`display-turn ${$boardStore.turn}`}>
-	<Image name={`turn-background-${$boardStore.turn}`} />
-	<span>{playerLabel} turn</span>
-	<span class:pause={$isPause}>{timer}s</span>
-</div>
+{#if $winner}
+	<div
+		in:fly={{ delay: 300, y: 300, duration: 300 }}
+		out:fly={{ y: 300, duration: 300 }}
+		class="end-game"
+	>
+		<span>{$winner === 'red' ? 'player 1' : 'player 2'}</span>
+		<span>Wins</span>
+		<button class="flat-button button-dark-purple" on:click={() => resetBoard()}>Play again</button>
+	</div>
+{:else}
+	<div
+		in:fly={{ delay: 1000, y: 300 }}
+		out:fly={{ duration: 300, y: 300 }}
+		class={`display-turn ${$boardStore.turn}`}
+	>
+		<Image name={`turn-background-${$boardStore.turn}`} />
+		<span>{playerLabel} turn</span>
+		<span class:pause={$isPause}>{timer}s</span>
+	</div>
+{/if}
 
 <style>
 	.display-turn {
@@ -91,6 +120,34 @@
 			top: 0;
 			width: 100%;
 			height: 100%;
+		}
+	}
+
+	.end-game {
+		position: relative;
+		z-index: 1;
+		width: 285px;
+		height: 160px;
+		margin: auto;
+		margin-top: -50px;
+		border-radius: 20px;
+		border: 3px solid var(--Black, #000);
+		background: var(--White, #fff);
+		box-shadow: 0px 10px 0px 0px #000;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		font-size: 16px;
+		font-weight: 700;
+		text-transform: uppercase;
+
+		& > span:nth-child(2) {
+			font-size: 56px;
+		}
+
+		& > button {
+			width: 130px;
 		}
 	}
 

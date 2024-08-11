@@ -114,6 +114,7 @@
 		.score-board span:last-child {
 			grid-area: score;
 			font-size: 32px;
+			margin-left: -15px;
 		}
 	}
 

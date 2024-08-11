@@ -65,7 +65,9 @@
 			</div>
 		</div>
 	</div>
-	<GameStatus />
+	<div class="game-status">
+		<GameStatus />
+	</div>
 	<div
 		class="game-status-background"
 		in:fly={{ delay: 1000, y: 300 }}
@@ -78,7 +80,9 @@
 		position: relative;
 		grid-area: board;
 	}
-
+	.board-container .game-status {
+		height: 165px;
+	}
 	.board-grid {
 		--board-width: 632px;
 		--board-height: 584px;
@@ -113,6 +117,7 @@
 		left: 50%;
 		bottom: 0px;
 		transform: translateX(-50%);
+		transition: all 300ms ease;
 	}
 
 	.board-grid > :global(.overlay),
@@ -155,6 +160,9 @@
 		}
 		.board-container > .game-status-background {
 			height: 236px;
+		}
+		.board-container .game-status {
+			height: 200px;
 		}
 	}
 </style>
